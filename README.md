@@ -28,7 +28,7 @@ https://github.com/owner/repo/pull/12
 2. 次のどちらかでコピーします。
    - ツールバーの拡張アイコンをクリックする
    - ショートカット `Alt+Shift+C`（Mac は `Option+Shift+C`）を押す
-3. 「✓ コピーしました」と表示されたら、Slack などに貼り付けます。
+3. 画面下に「✓ PR のタイトルと URL をコピーしました」と出たら、Slack などに貼り付けます。
 
 PR 以外のページでは「PR ページではありません」と表示され、何もコピーしません。
 
@@ -36,12 +36,15 @@ PR 以外のページでは「PR ページではありません」と表示さ�
 
 ## 仕組み
 
-ファイルは 3 つだけです。
+ファイルは 2 つだけです。
 
 | ファイル | 役割 |
 | --- | --- |
-| `manifest.json` | 権限（`activeTab`, `clipboardWrite`）とショートカットの定義 |
-| `popup.html` | アイコンを押したときに出る小さなポップアップ |
-| `popup.js` | 現在のタブのタイトルと URL を整形してコピー |
+| `manifest.json` | 権限（`activeTab`, `scripting`）とショートカットの定義 |
+| `background.js` | アイコンかショートカットが押されたら、そのタブでコピーと通知表示を実行 |
 
-ページに content script は差し込みません。タブのタイトル（`<PRタイトル> by <作者> · Pull Request #12 · owner/repo · GitHub`）から PR タイトルを取り出しています。
+常駐する content script はありません。操作したときだけ、そのタブにコピー処理を差し込みます。タブのタイトル（`<PRタイトル> by <作者> · Pull Request #12 · owner/repo · GitHub`）から PR タイトルを取り出しています。
+
+## 更新したとき
+
+`git pull` したあと、`chrome://extensions` で「Copy GitHub PR」の更新ボタン（↻）を押してください。
